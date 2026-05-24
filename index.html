@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngioCare - AI-Powered Crop Disease Detection</title>
+    <meta name="description" content="Empowering farmers with AI-powered crop disease detection, weather warnings, smart multi-lingual chatbot, and expert database.">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i data-lucide="sprout"></i>
+                </div>
+                <span class="brand-name">AngioCare</span>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-target="home-view">
+                    <a href="#home">
+                        <i data-lucide="home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-target="auth-view" id="menu-auth">
+                    <a href="#auth">
+                        <i data-lucide="log-in"></i>
+                        <span>Login / Sign Up</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-target="farmer-dash-view" id="menu-farmer-dash" style="display: none;">
+                    <a href="#farmer-dashboard">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Farmer Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-target="detection-view">
+                    <a href="#detect">
+                        <i data-lucide="scan-eye"></i>
+                        <span>AI Disease Detection</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-target="weather-view">
+                    <a href="#weather">
+                        <i data-lucide="cloud-sun"></i>
+                        <span>Weather & Forecast</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-target="kb-view">
+                    <a href="#knowledge-base">
+                        <i data-lucide="book-open"></i>
+                        <span>Knowledge Base</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-target="chatbot-view">
+                    <a href="#chatbot">
+                        <i data-lucide="bot"></i>
+                        <span>AngioBot AI</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-target="admin-dash-view" id="menu-admin-dash" style="display: none;">
+                    <a href="#admin-dashboard">
+                        <i data-lucide="shield-check"></i>
+                        <span>Admin Panel</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="menu-item" id="menu-logout" style="display: none;">
+                    <a href="#" onclick="authModule.logout(); return false;">
+                        <i data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN WRAPPER -->
+        <div class="main-wrapper">
+            <!-- NAVBAR -->
+            <header class="navbar">
+                <button class="nav-toggle-btn" id="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <i data-lucide="menu"></i>
+                </button>
+                
+                <div class="nav-brand-mobile" style="display: none;">
+                    <span class="brand-name">AngioCare</span>
+                </div>
+                
+                <div class="nav-actions">
+                    <!-- Notification Trigger -->
+                    <button class="notification-trigger" id="notification-btn" aria-label="Notifications">
+                        <i data-lucide="bell"></i>
+                        <span class="badge" id="notification-badge">0</span>
+                    </button>
+                    
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+                        <i data-lucide="sun" id="theme-icon-light"></i>
+                        <i data-lucide="moon" id="theme-icon-dark" style="display: none;"></i>
+                    </button>
+                    
+                    <!-- Profile Shortcut / Display -->
+                    <button class="profile-btn" id="nav-profile-btn" aria-label="Profile">
+                        <i data-lucide="user"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- DYNAMIC CONTENT BODY -->
+            <main class="content-body">
+
+                <!-- 1. HOME / LANDING VIEW -->
+                <section id="home-view" class="view-section active">
+                    <!-- Hero Section -->
+                    <div class="hero-section">
+                        <div class="hero-overlay"></div>
+                        <div class="hero-content">
+                            <h1>Secure Your Harvest with AngioCare</h1>
+                            <p>Protect your hard work from devastating diseases. Upload a leaf picture, and get instant, accurate, AI-backed diagnostics, organic treatments, and direct weather alerts.</p>
+                            <button class="cta-btn" onclick="app.navigateTo('detection-view')">
+                                <i data-lucide="scan"></i>
+                                <span>Upload Leaf Image</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Banner -->
+                    <div class="stats-grid">
+                        <div class="stat-card glass-panel">
+                            <div class="stat-number">98.4%</div>
+                            <div class="stat-label">AI Diagnostic Accuracy</div>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-number">12K+</div>
+                            <div class="stat-label">Indian Farmers Assisted</div>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-number">1.2M</div>
+                            <div class="stat-label">Crops Monitored</div>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-number">&lt; 3s</div>
+                            <div class="stat-label">Response Time</div>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="section-title">
+                        <h2>Advanced Features for Tomorrow's Farming</h2>
+                        <p>AngioCare combines satellite-level weather insights, machine learning, and botanical expertise directly into your pocket.</p>
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feature-card glass-panel">
+                            <div class="feature-icon"><i data-lucide="scan-line"></i></div>
+                            <h3>AI Disease Identification</h3>
+                            <p>Instant diagnosis for crops including Rice, Wheat, Tomato, Potato, Corn, Cotton, Sugarcane, and Banana using standard camera captures.</p>
+                        </div>
+                        <div class="feature-card glass-panel">
+                            <div class="feature-icon"><i data-lucide="cloud-lightning"></i></div>
+                            <h3>Weather Outbreak Warning</h3>
+                            <p>Monitors environmental metrics (humidity and temperatures) and alerts you before blight or mold outbreaks damage your crops.</p>
+                        </div>
+                        <div class="feature-card glass-panel">
+                            <div class="feature-icon"><i data-lucide="languages"></i></div>
+                            <h3>AngioBot Multilingual Voice</h3>
+                            <p>Type or speak in Hindi, English, and regional dialects to ask agricultural questions about fertilizers and remedies.</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Accuracy Chart Panel -->
+                    <div class="accuracy-section glass-panel" style="padding: 40px;">
+                        <div class="accuracy-chart-wrapper">
+                            <canvas id="accuracyChart"></canvas>
+                        </div>
+                        <div class="accuracy-content">
+                            <h3>Unrivaled Disease Classification Accuracy</h3>
+                            <p style="margin-bottom: 24px; color: var(--text-muted);">Our Convolutional Neural Network (CNN) is fine-tuned specifically on millions of high-resolution crop leaves under various illumination profiles.</p>
+                            
+                            <div class="accuracy-bar-item">
+                                <div class="accuracy-bar-label"><span>Wheat Rust</span><span>99.1%</span></div>
+                                <div class="accuracy-bar-outer"><div class="accuracy-bar-inner" data-width="99.1%"></div></div>
+                            </div>
+                            <div class="accuracy-bar-item">
+                                <div class="accuracy-bar-label"><span>Tomato Late Blight</span><span>98.6%</span></div>
+                                <div class="accuracy-bar-outer"><div class="accuracy-bar-inner" data-width="98.6%"></div></div>
+                            </div>
+                            <div class="accuracy-bar-item">
+                                <div class="accuracy-bar-label"><span>Corn Smut</span><span>97.8%</span></div>
+                                <div class="accuracy-bar-outer"><div class="accuracy-bar-inner" data-width="97.8%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- FAQs -->
+                    <div class="section-title">
+                        <h2>Frequently Asked Questions</h2>
+                        <p>Got questions? We have answers to help you navigate AngioCare.</p>
+                    </div>
+
+                    <div class="faqs-container">
+                        <div class="faq-item glass-panel">
+                            <div class="faq-header">
+                                <span>Which crops are supported by the AI detection model?</span>
+                                <i data-lucide="chevron-down" class="faq-icon"></i>
+                            </div>
+                            <div class="faq-body">
+                                We currently support Rice, Wheat, Tomato, Potato, Corn, Cotton, Sugarcane, and Banana leaves. More crops are added monthly.
+                            </div>
+                        </div>
+                        <div class="faq-item glass-panel">
+                            <div class="faq-header">
+                                <span>Does this application work offline?</span>
+                                <i data-lucide="chevron-down" class="faq-icon"></i>
+                            </div>
+                            <div class="faq-body">
+                                The diagnostic models are optimized for cloud analytics to ensure maximum accuracy. However, you can take photos offline and upload them once you regain connection.
+                            </div>
+                        </div>
+                        <div class="faq-item glass-panel">
+                            <div class="faq-header">
+                                <span>Are the treatment recommendations safe for organic farming?</span>
+                                <i data-lucide="chevron-down" class="faq-icon"></i>
+                            </div>
+                            <div class="faq-body">
+                                Yes, every diagnostic result contains both organic treatment alternatives (like neem oil, biodynamic compost, crop rotation) and certified fertilizer/chemical dosage options.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details -->
+                    <div class="contact-section">
+                        <div class="contact-info">
+                            <h2>Get in Touch with our Support</h2>
+                            <p>Have issues with a scan? Feedback for our model? Our agronomists are available 24/7 to support you.</p>
+                            
+                            <div class="info-item">
+                                <div class="info-icon"><i data-lucide="mail"></i></div>
+                                <div>
+                                    <h4 style="margin: 0;">Email Us</h4>
+                                    <p style="margin: 0; color: var(--text-muted);">support@angiocare.ai</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon"><i data-lucide="phone-call"></i></div>
+                                <div>
+                                    <h4 style="margin: 0;">Farmer Toll-Free Helpline</h4>
+                                    <p style="margin: 0; color: var(--text-muted);">1800-123-CROP (2767)</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon"><i data-lucide="map-pin"></i></div>
+                                <div>
+                                    <h4 style="margin: 0;">Headquarters</h4>
+                                    <p style="margin: 0; color: var(--text-muted);">Krishi Bhavan, Sector 5, New Delhi, India</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <form class="contact-form glass-panel" onsubmit="event.preventDefault(); app.submitFeedback();">
+                            <h3 style="margin-bottom: 24px;">Send a Message</h3>
+                            <div class="form-group">
+                                <label class="form-label" for="contact-name">Full Name</label>
+                                <input type="text" id="contact-name" class="form-input" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="contact-email">Email Address</label>
+                                <input type="email" id="contact-email" class="form-input" placeholder="you@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="contact-msg">Message</label>
+                                <textarea id="contact-msg" class="form-input" rows="4" placeholder="How can we assist you?" required></textarea>
+                            </div>
+                            <button type="submit" class="cta-btn" style="width: 100%; border-radius: var(--radius-sm); padding: 12px; font-size: 16px; justify-content: center;">
+                                <span>Send Message</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="footer">
+                        <div class="footer-logo">
+                            <i data-lucide="sprout" style="color: var(--primary);"></i>
+                            <span>AngioCare</span>
+                        </div>
+                        <div class="footer-nav">
+                            <a href="#about">About</a>
+                            <a href="#terms">Terms of Service</a>
+                            <a href="#privacy">Privacy Policy</a>
+                        </div>
+                        <div style="color: var(--text-muted); font-size: 14px;">
+                            © 2026 AngioCare. All rights reserved.
+                        </div>
+                    </footer>
+                </section>
+
+                <!-- 2. AUTHENTICATION VIEW -->
+                <section id="auth-view" class="view-section">
+                    <div class="auth-container glass-panel">
+                        <!-- Left Info Panel -->
+                        <div class="auth-sidebar">
+                            <div>
+                                <h2 style="font-size: 28px; margin-bottom: 16px;">AngioCare Hub</h2>
+                                <p style="color: rgba(255,255,255,0.85); font-size: 15px;">Unlock history tracking, customized weather alerts, diagnostic history, saved crop protection schedules, and 1-on-1 chats with agronomists.</p>
+                            </div>
+                            <div style="font-size: 13px; color: rgba(255,255,255,0.7);">
+                                Join over 12,000+ Indian farmers securing their lands.
+                            </div>
+                        </div>
+                        
+                        <!-- Right Dynamic Forms -->
+                        <div class="auth-form-side">
+                            <!-- A. LOGIN FORM -->
+                            <div class="auth-form-container active" id="login-form-wrapper">
+                                <h3 style="font-size: 24px; margin-bottom: 8px;">Welcome Back</h3>
+                                <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">Enter credentials (e.g., admin@gmail.com / admin123 for admin console).</p>
+                                
+                                <form onsubmit="event.preventDefault(); authModule.login();">
+                                    <div class="form-group">
+                                        <label class="form-label" for="login-email">Email Address</label>
+                                        <input type="email" id="login-email" class="form-input" placeholder="name@farm.com" required autocomplete="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <label class="form-label" for="login-pass">Password</label>
+                                            <span style="font-size: 12px; color: var(--primary); cursor: pointer;" onclick="authModule.showForgotPassword()">Forgot Password?</span>
+                                        </div>
+                                        <input type="password" id="login-pass" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+                                    </div>
+                                    <button type="submit" class="cta-btn" style="width:100%; border-radius:var(--radius-sm); padding:12px; font-size:16px; justify-content:center;">
+                                        <span>Sign In</span>
+                                    </button>
+                                </form>
+                                <p class="auth-switch-text">Don't have an account? <span class="auth-switch-link" onclick="authModule.toggleForm('register')">Register Now</span></p>
+                            </div>
+
+                            <!-- B. REGISTRATION FORM -->
+                            <div class="auth-form-container" id="register-form-wrapper">
+                                <h3 style="font-size: 24px; margin-bottom: 8px;">Create Farmer Account</h3>
+                                <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">Set up your profile to catalog your lands.</p>
+                                
+                                <form onsubmit="event.preventDefault(); authModule.register();">
+                                    <div class="form-group">
+                                        <label class="form-label" for="reg-name">Full Name</label>
+                                        <input type="text" id="reg-name" class="form-input" placeholder="Ramesh Patel" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="reg-email">Email Address</label>
+                                        <input type="email" id="reg-email" class="form-input" placeholder="name@farm.com" required autocomplete="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="reg-location">Farm Location</label>
+                                        <input type="text" id="reg-location" class="form-input" placeholder="Anand, Gujarat" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="reg-crop">Primary Crop</label>
+                                        <select id="reg-crop" class="form-input" required>
+                                            <option value="">Select Crop...</option>
+                                            <option value="Rice">Rice</option>
+                                            <option value="Wheat">Wheat</option>
+                                            <option value="Tomato">Tomato</option>
+                                            <option value="Potato">Potato</option>
+                                            <option value="Corn">Corn</option>
+                                            <option value="Cotton">Cotton</option>
+                                            <option value="Sugarcane">Sugarcane</option>
+                                            <option value="Banana">Banana</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="reg-pass">Create Password</label>
+                                        <input type="password" id="reg-pass" class="form-input" placeholder="••••••••" required autocomplete="new-password">
+                                    </div>
+                                    <button type="submit" class="cta-btn" style="width:100%; border-radius:var(--radius-sm); padding:12px; font-size:16px; justify-content:center;">
+                                        <span>Register</span>
+                                    </button>
+                                </form>
+                                <p class="auth-switch-text">Already registered? <span class="auth-switch-link" onclick="authModule.toggleForm('login')">Sign In</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. FARMER DASHBOARD -->
+                <section id="farmer-dash-view" class="view-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <div>
+                            <h2 style="font-size: 28px;" id="dashboard-welcome">Hello, Ramesh!</h2>
+                            <p style="color: var(--text-muted);" id="dashboard-location">Location: Anand, Gujarat</p>
+                        </div>
+                        <button class="btn-secondary" onclick="app.navigateTo('detection-view')">
+                            <i data-lucide="scan-line" style="color: var(--primary);"></i>
+                            <span>New Leaf Diagnosis</span>
+                        </button>
+                    </div>
+
+                    <!-- Metrics / Stats Row -->
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card glass-panel" style="text-align: center;">
+                            <h3 style="color: var(--text-muted); font-size: 14px; text-transform: uppercase; margin-bottom: 12px;">Crop Health Index</h3>
+                            <div style="font-size: 36px; font-weight: 800; color: var(--primary); margin-bottom: 8px;" id="dash-health-index">92%</div>
+                            <p style="font-size: 12px; color: var(--text-muted);">Stable based on 6 recent scans</p>
+                        </div>
+                        <div class="dashboard-card glass-panel" style="text-align: center;">
+                            <h3 style="color: var(--text-muted); font-size: 14px; text-transform: uppercase; margin-bottom: 12px;">Total Scans</h3>
+                            <div style="font-size: 36px; font-weight: 800; color: var(--secondary); margin-bottom: 8px;" id="dash-scan-count">0</div>
+                            <p style="font-size: 12px; color: var(--text-muted);">Scans logged since registration</p>
+                        </div>
+                        <div class="dashboard-card glass-panel" style="text-align: center;">
+                            <h3 style="color: var(--text-muted); font-size: 14px; text-transform: uppercase; margin-bottom: 12px;">Active Warnings</h3>
+                            <div style="font-size: 36px; font-weight: 800; color: var(--accent); margin-bottom: 8px;" id="dash-warning-count">0</div>
+                            <p style="font-size: 12px; color: var(--text-muted);">Outbreak warnings for your district</p>
+                        </div>
+                    </div>
+
+                    <!-- Sub layout: Recent predictions, saved treatments, and profile settings -->
+                    <div class="accuracy-section">
+                        <!-- Recent Diagnoses -->
+                        <div class="dashboard-card glass-panel">
+                            <div class="card-header-flex">
+                                <h3 style="font-size: 18px;">Recent Prediction History</h3>
+                                <button class="btn-secondary" style="font-size: 12px; padding: 6px 12px;" onclick="dashboardModule.clearHistory()">Clear History</button>
+                            </div>
+                            <div class="dashboard-list" id="dashboard-scan-history">
+                                <!-- Populated dynamically by dashboard.js -->
+                                <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 24px;">No scans recorded yet. Try running an AI Diagnosis.</p>
+                            </div>
+                        </div>
+
+                        <!-- Saved Treatments -->
+                        <div class="dashboard-card glass-panel">
+                            <div class="card-header-flex">
+                                <h3 style="font-size: 18px;">Saved Crop Treatments</h3>
+                            </div>
+                            <div class="dashboard-list" id="dashboard-saved-treatments">
+                                <!-- Populated dynamically -->
+                                <p style="color: var(--text-muted); font-style: italic; text-align: center; padding: 24px;">No treatments saved. Open a leaf result and save to list.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Management -->
+                    <div class="dashboard-card glass-panel" style="margin-top: 32px; padding: 32px;">
+                        <h3 style="font-size: 18px; margin-bottom: 20px;">Profile Settings & Farm Details</h3>
+                        <form id="profile-edit-form" onsubmit="event.preventDefault(); authModule.updateProfile();">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-name">Farmer Name</label>
+                                    <input type="text" id="profile-name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-location">Farm Location</label>
+                                    <input type="text" id="profile-location" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-crop">Primary Cultivated Crop</label>
+                                    <select id="profile-crop" class="form-input" required>
+                                        <option value="Rice">Rice</option>
+                                        <option value="Wheat">Wheat</option>
+                                        <option value="Tomato">Tomato</option>
+                                        <option value="Potato">Potato</option>
+                                        <option value="Corn">Corn</option>
+                                        <option value="Cotton">Cotton</option>
+                                        <option value="Sugarcane">Sugarcane</option>
+                                        <option value="Banana">Banana</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary-sm" style="margin-top: 16px; padding: 12px 24px;">
+                                <i data-lucide="save"></i>
+                                <span>Save Changes</span>
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 4. AI DETECTION MODULE -->
+                <section id="detection-view" class="view-section">
+                    <div class="section-title" style="text-align: left; margin-bottom: 32px;">
+                        <h2>AI Leaf Analyzer</h2>
+                        <p>Upload a clear photograph of a single crop leaf showing symptoms to diagnose the pathogen.</p>
+                    </div>
+
+                    <div class="detector-container">
+                        <!-- Upload Card -->
+                        <div class="upload-card glass-panel">
+                            <!-- Crop Selector (Crucial for simulation selection) -->
+                            <div class="form-group" style="text-align: left; margin-bottom: 24px;">
+                                <label class="form-label" for="detect-crop-select" style="font-weight: 700;">1. Select Crop Type</label>
+                                <select id="detect-crop-select" class="form-input">
+                                    <option value="Rice">Rice</option>
+                                    <option value="Wheat">Wheat</option>
+                                    <option value="Tomato" selected>Tomato</option>
+                                    <option value="Potato">Potato</option>
+                                    <option value="Corn">Corn (Maize)</option>
+                                    <option value="Cotton">Cotton</option>
+                                    <option value="Sugarcane">Sugarcane</option>
+                                    <option value="Banana">Banana</option>
+                                </select>
+                            </div>
+
+                            <label class="form-label" style="text-align: left; display: block; font-weight: 700; margin-bottom: 12px;">2. Upload or Capture Leaf Image</label>
+                            
+                            <div class="dropzone" id="dropzone">
+                                <div class="scanner-overlay" id="scanner-overlay">
+                                    <div class="scanner-bar"></div>
+                                </div>
+                                
+                                <video class="camera-stream" id="camera-stream" autoplay playsinline></video>
+                                
+                                <div class="dropzone-prompt" id="dropzone-prompt">
+                                    <div class="dropzone-icon"><i data-lucide="image-plus"></i></div>
+                                    <p style="font-weight: 600; margin-bottom: 4px;">Drag and drop leaf image here</p>
+                                    <p style="font-size: 12px; color: var(--text-muted);">or click to browse files (JPEG, PNG)</p>
+                                </div>
+                                <input type="file" id="file-input" style="display: none;" accept="image/*">
+                                
+                                <div class="image-preview-wrapper" id="preview-wrapper">
+                                    <img id="image-preview" src="#" alt="Leaf Preview">
+                                </div>
+                            </div>
+
+                            <!-- Camera and Action buttons -->
+                            <div class="camera-controls">
+                                <button class="btn-secondary" id="camera-start-btn">
+                                    <i data-lucide="camera" style="color: var(--primary);"></i>
+                                    <span>Start Camera</span>
+                                </button>
+                                <button class="btn-secondary" id="camera-capture-btn" style="display: none;">
+                                    <i data-lucide="aperture" style="color: var(--danger);"></i>
+                                    <span>Capture Photo</span>
+                                </button>
+                                <button class="cta-btn" id="analyze-btn" style="padding: 10px 24px; font-size: 15px; border-radius: var(--radius-sm);" disabled>
+                                    <i data-lucide="refresh-cw"></i>
+                                    <span>Run AI Diagnosis</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Results Diagnostic Card -->
+                        <div class="result-card glass-panel" id="result-card">
+                            <div class="result-header">
+                                <div>
+                                    <h3 class="result-disease-name" id="res-disease-name">Early Blight</h3>
+                                    <p style="color: var(--text-muted); font-size: 14px;" id="res-crop-type">Crop: Tomato</p>
+                                </div>
+                                <span class="result-severity severity-medium" id="res-severity">Medium</span>
+                            </div>
+
+                            <div class="detail-grid">
+                                <div class="detail-block">
+                                    <h4>Confidence</h4>
+                                    <p id="res-confidence">94.2%</p>
+                                </div>
+                                <div class="detail-block">
+                                    <h4>Pathogen Type</h4>
+                                    <p id="res-pathogen">Fungus (Alternaria solani)</p>
+                                </div>
+                            </div>
+
+                            <!-- Tabs -->
+                            <div class="diagnostic-tab-nav">
+                                <div class="diagnostic-tab active" data-tab="tab-symptoms">Symptoms & Causes</div>
+                                <div class="diagnostic-tab" data-tab="tab-organic">Organic Treatments</div>
+                                <div class="diagnostic-tab" data-tab="tab-chemical">Chemical Remedies</div>
+                            </div>
+
+                            <!-- Tab 1: Symptoms & Causes -->
+                            <div class="diagnostic-tab-content active" id="tab-symptoms">
+                                <h4 style="font-size: 14px; margin-bottom: 8px;">Symptoms:</h4>
+                                <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;" id="res-symptoms">Concentric rings (target spots) appearing first on older lower leaves. Leaves yellow and prematurely drop.</p>
+                                <h4 style="font-size: 14px; margin-bottom: 8px;">Primary Causes:</h4>
+                                <p style="font-size: 14px; color: var(--text-muted);" id="res-causes">Spores overwintering in debris. Driven by heavy rains, warm temperatures (24-29°C), and wet leaf foliage.</p>
+                            </div>
+
+                            <!-- Tab 2: Organic -->
+                            <div class="diagnostic-tab-content" id="tab-organic">
+                                <h4 style="font-size: 14px; margin-bottom: 8px;">Organic Prevention & Control:</h4>
+                                <ul style="padding-left: 20px; font-size: 14px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;" id="res-organic">
+                                    <li>Apply organic Copper Fungicide spray early in the season.</li>
+                                    <li>Mulch plants to prevent fungal spores from splashing up from the soil.</li>
+                                    <li>Prune lower leaves to maximize airflow and keep leaves dry.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Tab 3: Chemical -->
+                            <div class="diagnostic-tab-content" id="tab-chemical">
+                                <h4 style="font-size: 14px; margin-bottom: 8px;">Recommended Pesticides / Fertilizers:</h4>
+                                <ul style="padding-left: 20px; font-size: 14px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;" id="res-chemical">
+                                    <li>Spray Chlorothalonil or Mancozeb on affected plants every 7-10 days if symptoms persist.</li>
+                                    <li>Ensure balanced nitrogen feeds; excessive nitrogen promotes soft lush leaf growth susceptible to early blight.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Saved treatment action -->
+                            <div style="margin-top: 24px; display: flex; gap: 12px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                                <button class="btn-primary-sm" onclick="detectorModule.saveReport()">
+                                    <i data-lucide="bookmark"></i>
+                                    <span>Save Report & Treatment</span>
+                                </button>
+                                <button class="btn-secondary" style="font-size: 14px;" onclick="detectorModule.printReport()">
+                                    <i data-lucide="printer"></i>
+                                    <span>Print Details</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. WEATHER INTEGRATION -->
+                <section id="weather-view" class="view-section">
+                    <div class="section-title" style="text-align: left; margin-bottom: 32px;">
+                        <h2>Agricultural Weather Portal</h2>
+                        <p>Track micro-weather metrics linked to district crop disease outbreak probabilities.</p>
+                    </div>
+
+                    <!-- Current Weather -->
+                    <div class="weather-header-card glass-panel">
+                        <div class="weather-current">
+                            <div class="weather-current-temp" id="weather-temp">32°C</div>
+                            <div class="weather-current-details">
+                                <h3 style="font-size: 24px; margin: 0;" id="weather-condition">Partly Cloudy</h3>
+                                <p style="margin: 0; color: var(--text-muted);" id="weather-location">District: Anand, Gujarat</p>
+                                <div style="display: flex; gap: 16px; margin-top: 8px; font-size: 14px; color: var(--text-muted);">
+                                    <span><i data-lucide="droplet" style="width:14px; height:14px; vertical-align: middle;"></i> Humidity: <span id="weather-humidity">64%</span></span>
+                                    <span><i data-lucide="wind" style="width:14px; height:14px; vertical-align: middle;"></i> Wind: <span id="weather-wind">14 km/h</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Real-time Disease Warning -->
+                        <div class="weather-alert-box" id="weather-alert-box">
+                            <h4 style="color: var(--accent); display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <i data-lucide="alert-triangle"></i>
+                                <span>Late Blight Forecast</span>
+                            </h4>
+                            <p style="font-size: 13px; margin: 0; color: var(--text-main);" id="weather-alert-text">High humidity (88%) forecast for Tuesday. Fungal spore germination rates will surge. Farmers growing Potato/Tomato are advised to take preventive actions.</p>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Forecast -->
+                    <h3 style="font-size: 18px; margin-bottom: 16px;">7-Day Forecast</h3>
+                    <div class="weather-forecast-grid" id="weather-forecast-container">
+                        <!-- Populated by weather.js -->
+                    </div>
+
+                    <!-- Charts: Temp vs Humidity -->
+                    <div class="dashboard-card glass-panel" style="padding: 24px;">
+                        <h3 style="font-size: 18px; margin-bottom: 20px;">Temperature & Humidity Variations</h3>
+                        <div style="height: 300px; width: 100%;">
+                            <canvas id="weatherChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. DISEASE KNOWLEDGE BASE -->
+                <section id="kb-view" class="view-section">
+                    <div class="section-title" style="text-align: left; margin-bottom: 32px;">
+                        <h2>Agricultural Knowledge Library</h2>
+                        <p>Search diagnostic symptoms, crop management recommendations, and active Government subsidy schemes.</p>
+                    </div>
+
+                    <div class="kb-controls">
+                        <div class="kb-search-wrapper">
+                            <i data-lucide="search" class="kb-search-icon"></i>
+                            <input type="text" id="kb-search-input" class="kb-search-input" placeholder="Search disease, symptoms, prevention, or schemes...">
+                        </div>
+                        <select id="kb-crop-filter" class="form-input" style="max-width: 200px; background-color: var(--bg-card);">
+                            <option value="">All Crops</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Tomato">Tomato</option>
+                            <option value="Potato">Potato</option>
+                            <option value="Corn">Corn</option>
+                            <option value="Cotton">Cotton</option>
+                            <option value="Sugarcane">Sugarcane</option>
+                            <option value="Banana">Banana</option>
+                        </select>
+                        <select id="kb-category-filter" class="form-input" style="max-width: 200px; background-color: var(--bg-card);">
+                            <option value="">All Categories</option>
+                            <option value="fungal">Fungal Diseases</option>
+                            <option value="bacterial">Bacterial Diseases</option>
+                            <option value="viral">Viral Diseases</option>
+                            <option value="pest">Insect Pests</option>
+                            <option value="scheme">Govt Schemes</option>
+                        </select>
+                    </div>
+
+                    <!-- Grid list -->
+                    <div class="kb-grid" id="kb-grid-container">
+                        <!-- Populated by kb.js -->
+                    </div>
+                </section>
+
+                <!-- 7. MULTILINGUAL AI CHATBOT -->
+                <section id="chatbot-view" class="view-section">
+                    <div class="section-title" style="text-align: left; margin-bottom: 24px;">
+                        <h2>AngioBot Multilingual Assistant</h2>
+                        <p>Ask crop questions, configure fertilizer feeds, and obtain weather forecasts. Voice input and audio responses available.</p>
+                    </div>
+
+                    <div class="chatbot-container glass-panel">
+                        <!-- History Sidebar -->
+                        <div class="chat-history-sidebar">
+                            <button class="cta-btn" style="border-radius: var(--radius-sm); padding: 10px; font-size: 14px; width: 100%; justify-content: center;" onclick="chatbotModule.startNewChat()">
+                                <i data-lucide="plus"></i>
+                                <span>New Consultation</span>
+                            </button>
+                            
+                            <h4 style="font-size: 12px; text-transform: uppercase; color: var(--text-muted); margin-top: 12px;">Saved Consultations</h4>
+                            <div class="chat-room-list" id="chat-rooms-container">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Chat Area -->
+                        <div class="chat-main">
+                            <div class="chat-header">
+                                <div>
+                                    <h3 style="font-size: 16px;" id="chat-title">AngioBot Consultation</h3>
+                                    <span style="font-size: 12px; color: var(--success); font-weight: 600;">● Online</span>
+                                </div>
+                                
+                                <div class="voice-assistance-controls">
+                                    <!-- Gemini API Key -->
+                                    <input type="password" id="chatbot-api-key" class="form-input" style="padding: 6px 12px; font-size: 12px; background-color: var(--bg-card); max-width: 155px;" placeholder="Gemini API Key..." title="Enter your Gemini API key to query Gemini 2.5 directly.">
+                                    
+                                    <!-- Language Selector -->
+                                    <select id="chat-lang" class="form-input" style="padding: 6px 12px; font-size: 12px; background-color: var(--bg-card); max-width: 130px;">
+                                        <option value="en-US">English</option>
+                                        <option value="hi-IN">Hindi (हिंदी)</option>
+                                        <option value="te-IN">Telugu (తెలుగు)</option>
+                                        <option value="ta-IN">Tamil (தமிழ்)</option>
+                                    </select>
+                                    
+                                    <!-- Mic Button -->
+                                    <button class="voice-btn" id="chat-mic-btn" title="Speak to chatbot">
+                                        <i data-lucide="mic"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Messages body -->
+                            <div class="chat-body" id="chat-body">
+                                <div class="chat-message bot">
+                                    Hello! I am AngioBot, your smart agricultural assistant. You can speak or type to me in English, Hindi, Tamil, or Telugu. Ask me about crop diseases, weather remedies, or fertilizers!
+                                </div>
+                            </div>
+
+                            <!-- Input footer -->
+                            <div class="chat-footer">
+                                <div class="chat-input-wrapper">
+                                    <input type="text" id="chat-input" class="chat-input" placeholder="Type agricultural question here...">
+                                </div>
+                                <button class="cta-btn" id="chat-send-btn" style="border-radius: 50%; width: 44px; height: 44px; padding: 0; justify-content: center;">
+                                    <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. ADMIN DASHBOARD -->
+                <section id="admin-dash-view" class="view-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <div>
+                            <h2 style="font-size: 28px;">Admin Dashboard</h2>
+                            <p style="color: var(--text-muted);">Configure AngioCare parameters, audit crop reports, and check model accuracies.</p>
+                        </div>
+                    </div>
+
+                    <!-- Metrics -->
+                    <div class="admin-stats-grid">
+                        <div class="admin-card-metric glass-panel">
+                            <div class="admin-metric-icon"><i data-lucide="users"></i></div>
+                            <div>
+                                <h3 style="font-size: 24px;" id="admin-total-farmers">12,410</h3>
+                                <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Total Farmers</p>
+                            </div>
+                        </div>
+                        <div class="admin-card-metric glass-panel">
+                            <div class="admin-metric-icon" style="background-color: rgba(59, 130, 246, 0.15); color: var(--secondary);"><i data-lucide="file-text"></i></div>
+                            <div>
+                                <h3 style="font-size: 24px;" id="admin-total-reports">45,182</h3>
+                                <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Leaf Reports</p>
+                            </div>
+                        </div>
+                        <div class="admin-card-metric glass-panel">
+                            <div class="admin-metric-icon" style="background-color: rgba(245, 158, 11, 0.15); color: var(--accent);"><i data-lucide="activity"></i></div>
+                            <div>
+                                <h3 style="font-size: 24px;">98.42%</h3>
+                                <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">CNN Accuracy</p>
+                            </div>
+                        </div>
+                        <div class="admin-card-metric glass-panel">
+                            <div class="admin-metric-icon" style="background-color: rgba(16, 185, 129, 0.15); color: var(--primary);"><i data-lucide="message-square"></i></div>
+                            <div>
+                                <h3 style="font-size: 24px;" id="admin-total-feedbacks">242</h3>
+                                <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Unresolved Feedbacks</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="admin-chart-row">
+                        <!-- Chart 1: Crop report distribution -->
+                        <div class="dashboard-card glass-panel" style="padding: 24px;">
+                            <h3 style="font-size: 18px; margin-bottom: 20px;">Reports Registered by Crop Type</h3>
+                            <div style="height: 300px; width:100%;">
+                                <canvas id="adminCropChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Chart 2: Daily Scan Rate -->
+                        <div class="dashboard-card glass-panel" style="padding: 24px;">
+                            <h3 style="font-size: 18px; margin-bottom: 20px;">Model Classifications per Category</h3>
+                            <div style="height: 300px; width:100%;">
+                                <canvas id="adminAccuracyDoughnut"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Farmer Feedback moderator -->
+                    <div class="admin-table-card glass-panel">
+                        <h3 style="font-size: 18px;">Farmer Feedback and Inquiries</h3>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-feedback-table">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- User Management list -->
+                    <div class="admin-table-card glass-panel">
+                        <h3 style="font-size: 18px;">Farmer Registration Profiles</h3>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Location</th>
+                                    <th>Primary Crop</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-table">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION DROPDOWN POPUP -->
+    <div class="modal-overlay" id="notification-modal">
+        <div class="modal-content glass-panel" style="max-height: 500px; overflow-y: auto;">
+            <div class="modal-header">
+                <h3 style="font-size: 18px;"><i data-lucide="bell" style="vertical-align: middle; margin-right: 8px; color: var(--primary);"></i> Notification Inbox</h3>
+                <span class="modal-close" onclick="app.toggleNotificationModal()">&times;</span>
+            </div>
+            <div class="dashboard-list" id="notification-inbox-list" style="gap: 12px;">
+                <!-- Populated dynamically -->
+            </div>
+            <button class="btn-secondary" style="width: 100%; margin-top: 16px;" onclick="app.clearNotifications()">Clear All Notifications</button>
+        </div>
+    </div>
+
+    <!-- REGISTER OTP MODAL -->
+    <div class="modal-overlay" id="otp-modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h3 style="font-size: 18px;">Farmer OTP Verification</h3>
+                <span class="modal-close" onclick="authModule.closeOtpModal()">&times;</span>
+            </div>
+            <p style="font-size: 14px; color: var(--text-muted); text-align: center;">We've sent a 4-digit verification code to your email. Enter it below to complete registration.</p>
+            
+            <div class="otp-inputs">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="authModule.handleOtpInput(this, event)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="authModule.handleOtpInput(this, event)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="authModule.handleOtpInput(this, event)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="authModule.handleOtpInput(this, event)">
+            </div>
+            
+            <button class="cta-btn" style="width: 100%; border-radius: var(--radius-sm); padding: 12px; font-size: 16px; justify-content: center;" onclick="authModule.verifyOtp()">
+                <span>Verify & Activate Account</span>
+            </button>
+            <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 16px;">
+                Didn't receive the code? <span style="color: var(--primary); cursor: pointer;" onclick="authModule.resendOtp()">Resend Code</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- MODULE SCRIPTS -->
+    <script src="js/auth.js"></script>
+    <script src="js/detector.js"></script>
+    <script src="js/weather.js"></script>
+    <script src="js/kb.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
