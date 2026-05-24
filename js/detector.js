@@ -525,8 +525,9 @@ const detectorModule = (() => {
                     }
 
                     // Human skin tone bounds check (pinkish, beige, reddish-brown)
-                    if (r > 95 && g > 40 && b > 20 && (r - g) > 15 && r > b) {
-                        if (!(g > r && g > b)) {
+                    // Excludes yellow/brown/orange leaf pigments where blue is extremely depleted
+                    if (r > 95 && g > 40 && b > 30 && (r - g) > 15 && r > b) {
+                        if (!(g > r && g > b) && b > (r * 0.3)) {
                             skinPixels++;
                         }
                     }
@@ -547,6 +548,10 @@ const detectorModule = (() => {
                 console.error("Canvas pixel check skipped: ", err);
                 callback(false); // Fallback to normal behavior in case of errors
             }
+        };
+        tempImg.onerror = function() {
+            console.warn("Temp image loading failed for human check, bypassing blocker.");
+            callback(false); // Fallback on error to prevent UI freezing
         };
         tempImg.src = img.src;
     }
